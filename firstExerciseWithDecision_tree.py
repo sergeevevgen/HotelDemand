@@ -4,6 +4,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, export_graphviz, plot_tree
 
 df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
+df.dropna(inplace=True)
 
 
 # Тип питания в зависимости от инфляции и потребительских настроений по отношению к экономике
@@ -14,14 +15,16 @@ def tree_visual():
     label_encoder = LabelEncoder()
 
     # Преобразование столбцов в числовые значения для всего фрейма
-    # list_col = ['hotel', 'arrival_date_month', 'meal', 'country', 'market_segment', 'distribution_channel', 'reserved_room_type', 'deposit_type', 'customer_type', 'reservation_status', 'assigned_room_type']
-    # for i in list_col:
-    #     df[i] = label_encoder.fit_transform(df[i])
-    #df[list_col] = label_encoder.fit_transform(df[list_col])
+    list_params = [
+        'lead_time', 'stays_in_weekend_nights', 'stays_in_week_nights',
+        'adults', 'children',
+        'babies', 'meal',
+        'customer_type', 'previous_cancellations', 'previous_bookings_not_canceled',
+        'required_car_parking_spaces', 'CPI_AVG', 'INFLATION', 'INFLATION_CHG',
+        'GDP', 'CPI_HOTELS']
 
-    #для всего фрейма
-    # mean_value = round(df['agent'].mean())
-    # df['agent'].fillna(mean_value, inplace=True)
+    for i in list_params:
+        df[i] = label_encoder.fit_transform(df[i])
 
     # Количество элементов для обучения (99%)
     count_to_train = round(len(df) * 0.99)
@@ -29,15 +32,14 @@ def tree_visual():
     count_to_test = len(df) - count_to_train
 
     # Набор данных для обучения для всего фрейма
-    # train_df = df.head(count_to_train).copy().drop(columns=['reservation_status_date', 'MO_YR'])
     train_df = df.head(count_to_train).copy()
 
-    # Тип питания
-    y = train_df.copy()['meal']
+    # Флаг отмены бронирования - целевая переменная
+    y = train_df.copy()['is_canceled']
 
     # Уровень инфляции и потребительские настроения по отношению к экономике для всего фрейма
-    # x = train_df.copy().drop(columns=['meal'])
-    x = train_df.copy()[['INFLATION', 'CSMR_SENT']]
+    x = train_df.copy()[list_params]
+
     # Создание модели дерева решений
     model = DecisionTreeClassifier()
 
@@ -45,22 +47,20 @@ def tree_visual():
     model.fit(x, y)
 
     # Проверка модели для всего фрейма
-    #test_df = df.tail(count_to_test).copy().drop(columns=['reservation_status_date', 'MO_YR'])
-    test_df = df.tail(count_to_test)[['INFLATION', 'CSMR_SENT', 'meal']]
+    test_df = df.tail(count_to_test).copy()
 
-    y_test = test_df.copy()['meal']
-    x_test = test_df.copy().drop(columns=['meal'])
+    y_test = test_df.copy()['is_canceled']
+    x_test = test_df.copy()[list_params]
 
     prediction = model.score(x_test, y_test)
 
     print('Качество дерева решений: ', prediction * 100, '%')
     # Визуализация дерева решений
     plt.figure(figsize=(12, 8))
-    plot_tree(model, feature_names=['INFLATION', 'CSMR_SENT'], filled=True)
+    plot_tree(model, feature_names=list_params, filled=True)
 
     # Сохранение графика в файл .png
-    plt.savefig('decision_tree.png', dpi=300)
-    plt.show()
+    plt.savefig('decision_tree.png', dpi=1000)
 
     res = sorted(dict(zip(list(x.columns), model.feature_importances_)).items(),
                  key=lambda el: el[1], reverse=True)
@@ -68,9 +68,7 @@ def tree_visual():
     flag = 0
     print('feature importance:')
     for val in res:
-        print(val[0]+" - "+str(val[1]))
-
-    return
+        print(val[0] + " - " + str(val[1] * 100) + '%')
 
 
 tree_visual()

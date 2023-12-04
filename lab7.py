@@ -8,7 +8,6 @@ from keras.utils import pad_sequences
 # Путь к файлу
 file_path = 'vlastelin-kolec.txt'
 
-# Замените 'your_text_file.txt' на путь к вашему файлу с художественным текстом
 with open(file_path, 'r', encoding='utf-8') as file:
     text = file.read()
 

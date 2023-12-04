@@ -46,4 +46,4 @@ plt.xlabel('Время до заезда')
 plt.ylabel('Забронировано ночей в выходные дни')
 
 # Сохранение графика в файл .png
-plt.savefig('clusters.png', dpi=300)
+plt.savefig('clustersDBSCAN.png', dpi=300)
