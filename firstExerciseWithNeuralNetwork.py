@@ -63,10 +63,14 @@ model.fit(x, y, epochs=20, batch_size=32, validation_data=(x_test, y_test))
 # Предсказание на тестовых данных
 y_pred = model.predict(x_test)
 
-# Оценка производительности модели
-accuracy = accuracy_score(y_test, y_pred)
-conf_matrix = confusion_matrix(y_test, y_pred)
+# Применение порога к вероятностям
+threshold = 0.5
+y_pred_binary = (y_pred > threshold).astype(int)
 
-print(f'Accuracy: {accuracy}')
+# Оценка производительности модели с использованием бинарных предсказаний
+accuracy = accuracy_score(y_test, y_pred_binary)
+conf_matrix = confusion_matrix(y_test, y_pred_binary)
+
+print(f'Accuracy: {accuracy * 100}%')
 print('Confusion Matrix:')
 print(conf_matrix)

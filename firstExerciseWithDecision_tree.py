@@ -65,7 +65,6 @@ def tree_visual():
     res = sorted(dict(zip(list(x.columns), model.feature_importances_)).items(),
                  key=lambda el: el[1], reverse=True)
 
-    flag = 0
     print('feature importance:')
     for val in res:
         print(val[0] + " - " + str(val[1] * 100) + '%')

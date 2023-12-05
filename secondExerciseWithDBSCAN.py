@@ -4,6 +4,7 @@ from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Загружаю данные
 df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
@@ -13,6 +14,8 @@ label_encoder = LabelEncoder()
 
 # Признаки, по которым будет проходить кластеризация
 features = ['lead_time', 'stays_in_weekend_nights', 'adults', 'children', 'babies', 'adr']
+
+df = df[features].copy()
 
 # Применяю к каждому столбцу признака преобразования
 for f in features:
@@ -37,13 +40,16 @@ scaled_features = scaler.fit_transform(df[features])
 dbscan = DBSCAN(eps=0.3, min_samples=5)
 
 # Кластеризую данные по этим признакам
-clusters = dbscan.fit_predict(scaled_features)
+df['cluster'] = dbscan.fit_predict(scaled_features)
 
-# Создаю график
-plt.scatter(df[features[0]], df[features[1]], c=clusters)
+# Сохранение графика в файл .png
+# Слишком много кластеров -> слишком много графиков
+# sns.violinplot(x='cluster', y='adr', data=df, palette='Dark2')
+# plt.savefig('clustersDBSCAN.png', dpi=300)
+# plt.show()
+
+plt.scatter(df[features[0]], df[features[1]], c=df['cluster'], cmap='viridis')
 plt.title('Метод кластеризации - DBSCAN')
 plt.xlabel('Время до заезда')
 plt.ylabel('Забронировано ночей в выходные дни')
-
-# Сохранение графика в файл .png
-plt.savefig('clustersDBSCAN.png', dpi=300)
+plt.show()
