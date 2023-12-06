@@ -64,19 +64,29 @@ def ridge_regression_task3(df):
     print(f"Коэффициент детерминации (R^2): {round(r2, 4) * 100}%")
 
     compare_df = pd.DataFrame({'Actual': y_test.values.flatten(), 'Predicted': y_predictions.flatten()})
-    t = pd.DataFrame({'Type': ['Actual'] * len(y_test) + ['Predicted'] * len(y_predictions)})
-    # Создаем scatter plot
-    plt.figure(figsize=(10, 6))
-    # sns.scatterplot(x='Actual', y='Predicted', hue='Type',
-    #                 data=compare_df, palette={'Actual': 'blue',
-    #                                           'Predicted': 'orange'})
-    sns.scatterplot(x='Actual', y='Predicted',
-                    data=compare_df)
+    # График
+    plt.figure(figsize=(10, 7))
+    plt.plot(y_test.values, label='Фактические', marker='o', color='#8b00ff')
+    plt.plot(y_predictions, label='Предсказанные', marker='o', color='#ff294d')
     plt.title('Фактические vs. Предсказанные значения')
-    plt.xlabel('Фактические значения')
-    plt.ylabel('Предсказанные значения')
-    plt.legend()
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend(loc='best')
+    plt.savefig("static/images/ridge.png")
     plt.show()
+    plt.clf()
+    # Создаем scatter plot
+    # plt.figure(figsize=(10, 6))
+    # # sns.scatterplot(x='Actual', y='Predicted', hue='Type',
+    # #                 data=compare_df, palette={'Actual': 'blue',
+    # #                                           'Predicted': 'orange'})
+    # sns.scatterplot(x='Actual', y='Predicted',
+    #                 data=compare_df)
+    # plt.title('Фактические vs. Предсказанные значения')
+    # plt.xlabel('Фактические значения')
+    # plt.ylabel('Предсказанные значения')
+    # plt.legend()
+    # plt.show()
 
 
 ridge_regression_task3(ndf)
