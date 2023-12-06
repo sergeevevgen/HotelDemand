@@ -1,3 +1,6 @@
+import os
+
+import joblib
 import pandas as pd
 import numpy as np
 from sklearn.cluster import DBSCAN
@@ -8,8 +11,8 @@ import seaborn as sns
 
 
 # Загружаю данные
-# df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
-# df.dropna(inplace=True)
+# ndf = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
+# ndf.dropna(inplace=True)
 
 def clustering_dbscan_task2(df):
     # Объявляю объект для преобразования строковых значений в числовые
@@ -55,4 +58,8 @@ def clustering_dbscan_task2(df):
     plt.title('Метод кластеризации - DBSCAN')
     plt.xlabel('Время до заезда')
     plt.ylabel('Забронировано ночей в выходные дни')
-    plt.show()
+    plt.savefig('static/images/clusters_dbscan.png', dpi=300)
+    plt.clf()
+    # plt.show()
+
+# clustering_dbscan_task2(ndf)

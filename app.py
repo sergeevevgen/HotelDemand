@@ -18,22 +18,22 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/decision_tree')
+@app.route('/task1')
 def decision_tree():
     # Здесь можно вставить код для выполнения задачи с деревом решений
-    return "Решение задачи с использованием дерева решений"
+    return render_template('task1.html')
 
 
 @app.route('/clustering')
 def clustering():
     # Здесь можно вставить код для выполнения задачи с кластеризацией
-    return "Решение задачи с использованием кластеризации"
+    return render_template('task2.html')
 
 
-@app.route('/neural_network')
+@app.route('/task3')
 def neural_network():
     # Здесь можно вставить код для выполнения задачи с нейронной сетью
-    return "Решение задачи с использованием нейронной сети"
+    return render_template('task3.html')
 
 
 if __name__ == '__main__':

@@ -1,12 +1,14 @@
 import math
+import os
 
 from matplotlib import pyplot as plt
 from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, classification_report
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import pandas as pd
 import seaborn as sns
+import joblib
 
 # Загрузим данные
 ndf = pd.read_csv("hotel_bookings_raw.csv")
@@ -16,6 +18,9 @@ ndf.dropna(inplace=True)
 def neural_network_task3(df):
     # Объявляю объект для преобразования строковых значений в числовые
     label_encoder = LabelEncoder()
+
+    # Путь к сохраненной моделе
+    model_path = 'static/models/model_neural_task3.keras'
 
     # Выберем признаки и целевую переменную (доход)
     features_list = ['lead_time', 'stays_in_weekend_nights',
@@ -42,7 +47,11 @@ def neural_network_task3(df):
 
     # Создаем и обучаем MLPRegressor
     mlp_model = MLPRegressor(hidden_layer_sizes=(100, 50), max_iter=500, random_state=42)
-    mlp_model.fit(X_train_scaled, y_train)
+    if os.path.isfile(model_path):
+        # Загрузка модели
+        mlp_model = joblib.load(model_path)
+    else:
+        mlp_model.fit(X_train_scaled, y_train)
 
     # Делаем предсказания на тестовых данных
     y_predictions = mlp_model.predict(X_test_scaled)
@@ -60,14 +69,17 @@ def neural_network_task3(df):
     plt.figure(figsize=(10, 7))
     plt.plot(y_test.values, label='Фактические', marker='o', color='#8b00ff')
     plt.plot(y_predictions, label='Предсказанные', marker='o', color='#ff294d')
-    plt.title('Фактические и предсказанные значения')
+    plt.title('Фактические vs предсказанные значения')
     plt.xlabel('Фактические')
     plt.ylabel('Предсказанные')
     plt.legend(loc='best')
-    plt.savefig("static/images/neural_task3.png")
-    plt.show()
+    plt.savefig('static/images/neural_task3.png')
+    # plt.show()
     plt.clf()
 
+    # Сохранение модели
+    if not os.path.isfile(model_path):
+        joblib.dump(value=mlp_model, filename=model_path)
 
 
 neural_network_task3(ndf)

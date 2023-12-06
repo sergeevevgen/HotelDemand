@@ -1,20 +1,28 @@
+import os.path
+
 import pandas as pd
 import numpy as np
+from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, auc
 import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense
+import seaborn as sns
+from keras.models import load_model
 
-# df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
-# df.dropna(inplace=True)
+ndf = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
+ndf.dropna(inplace=True)
 
 
 def neural_network_task1(df):
     # Преобразование типов питания к числам
     # Инициализация LabelEncoder
     label_encoder = LabelEncoder()
+
+    # Путь к сохраненной моделе
+    model_path = 'static/models/model_neural_task1.keras'
 
     # Преобразование столбцов в числовые значения для всего фрейма
     list_params = [
@@ -52,15 +60,19 @@ def neural_network_task1(df):
 
     # Построение модели нейронной сети
     model = Sequential()
-    model.add(Dense(64, input_dim=x.shape[1], activation='relu'))
-    model.add(Dense(32, activation='relu'))
-    model.add(Dense(1, activation='sigmoid'))
+    if os.path.isfile(model_path):
+        # Загрузка модели
+        model = load_model(model_path)
+    else:
+        model.add(Dense(64, input_dim=x.shape[1], activation='relu'))
+        model.add(Dense(32, activation='relu'))
+        model.add(Dense(1, activation='sigmoid'))
 
-    # Компиляция модели
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+        # Компиляция модели
+        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-    # Обучение модели
-    model.fit(x, y, epochs=20, batch_size=32, validation_data=(x_test, y_test))
+        # Обучение модели
+        model.fit(x, y, epochs=20, batch_size=32, validation_data=(x_test, y_test))
 
     # Предсказание на тестовых данных
     y_pred = model.predict(x_test)
@@ -76,3 +88,31 @@ def neural_network_task1(df):
     print(f'Accuracy: {accuracy * 100}%')
     print('Confusion Matrix:')
     print(conf_matrix)
+
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False)
+    plt.xlabel('Predicted Labels')
+    plt.ylabel('True Labels')
+    plt.title('Confusion Matrix')
+    plt.savefig('static/images/confusion_matrix_task1.png')
+    plt.clf()
+
+    # Оценка производительности модели с использованием вероятностей
+    # График
+    plt.figure(figsize=(10, 7))
+    plt.plot(y_pred_binary.flatten(), label='Предсказанные', marker='o', color='#ff294d')
+    plt.plot(y_test.values, label='Фактические', marker='o', color='#8b00ff')
+    plt.title('Фактические vs предсказанные значения')
+    plt.xlabel('Фактические')
+    plt.ylabel('Предсказанные')
+    plt.legend(loc='best')
+    plt.savefig("static/images/neural_task1.png")
+    # plt.show()
+    plt.clf()
+
+    # Сохранение модели
+    if not os.path.isfile(model_path):
+        model.save(model_path)
+
+
+neural_network_task1(ndf)

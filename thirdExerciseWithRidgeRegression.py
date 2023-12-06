@@ -1,6 +1,8 @@
 # Импортируем необходимые библиотеки
 import math
+import os
 
+import joblib
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -11,13 +13,16 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 import seaborn as sns
 
 # Загрузим данные
-ndf = pd.read_csv("hotel_bookings_raw.csv")
-ndf.dropna(inplace=True)
+# ndf = pd.read_csv("hotel_bookings_raw.csv")
+# ndf.dropna(inplace=True)
 
 
 def ridge_regression_task3(df):
     # Объявляю объект для преобразования строковых значений в числовые
     label_encoder = LabelEncoder()
+
+    # Путь к сохраненной моделе
+    model_path = 'static/models/model_ridge_task3.keras'
 
     # Выберем признаки и целевую переменную (доход)
     features_list = ['lead_time', 'stays_in_weekend_nights',
@@ -44,6 +49,12 @@ def ridge_regression_task3(df):
     # Создаем модель гребневой регрессии
     ridge_model = Ridge(alpha=1.0)  # Можете изменить alpha в зависимости от необходимой регуляризации
 
+    if os.path.isfile(model_path):
+        # Загрузка модели
+        ridge_model = joblib.load(model_path)
+    else:
+        ridge_model.fit(X_train_scaled, y_train)
+
     # Обучаем модель на тренировочных данных
     ridge_model.fit(X_train_scaled, y_train)
 
@@ -63,7 +74,6 @@ def ridge_regression_task3(df):
     print(f"Среднеабсолютное отклонение (MAE): {round(mae, 2)}%")
     print(f"Коэффициент детерминации (R^2): {round(r2, 4) * 100}%")
 
-    compare_df = pd.DataFrame({'Actual': y_test.values.flatten(), 'Predicted': y_predictions.flatten()})
     # График
     plt.figure(figsize=(10, 7))
     plt.plot(y_test.values, label='Фактические', marker='o', color='#8b00ff')
@@ -73,20 +83,12 @@ def ridge_regression_task3(df):
     plt.ylabel('y')
     plt.legend(loc='best')
     plt.savefig("static/images/ridge.png")
-    plt.show()
-    plt.clf()
-    # Создаем scatter plot
-    # plt.figure(figsize=(10, 6))
-    # # sns.scatterplot(x='Actual', y='Predicted', hue='Type',
-    # #                 data=compare_df, palette={'Actual': 'blue',
-    # #                                           'Predicted': 'orange'})
-    # sns.scatterplot(x='Actual', y='Predicted',
-    #                 data=compare_df)
-    # plt.title('Фактические vs. Предсказанные значения')
-    # plt.xlabel('Фактические значения')
-    # plt.ylabel('Предсказанные значения')
-    # plt.legend()
     # plt.show()
+    plt.clf()
+
+    # Сохранение модели
+    if not os.path.isfile(model_path):
+        joblib.dump(value=ridge_model, filename=model_path)
 
 
-ridge_regression_task3(ndf)
+# ridge_regression_task3(ndf)

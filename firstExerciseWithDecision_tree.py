@@ -1,3 +1,6 @@
+import os
+
+import joblib
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
@@ -13,6 +16,9 @@ def decision_tree_task1(df):
     # Преобразование типов питания к числам
     # Инициализация LabelEncoder
     label_encoder = LabelEncoder()
+
+    # Путь к сохраненной моделе
+    model_path = 'static/models/model_tree_task1.keras'
 
     # Преобразование столбцов в числовые значения для всего фрейма
     list_params = [
@@ -43,8 +49,12 @@ def decision_tree_task1(df):
     # Создание модели дерева решений
     model = DecisionTreeClassifier()
 
-    # Обучение модели
-    model.fit(x, y)
+    if os.path.isfile(model_path):
+        # Загрузка модели
+        model = joblib.load(model_path)
+    else:
+        # Обучение модели
+        model.fit(x, y)
 
     # Проверка модели для всего фрейма
     test_df = df.tail(count_to_test).copy()
@@ -60,7 +70,7 @@ def decision_tree_task1(df):
     plot_tree(model, feature_names=list_params, filled=True)
 
     # Сохранение графика в файл .png
-    plt.savefig('decision_tree.png', dpi=1000)
+    plt.savefig('static/images/decision_tree.png', dpi=1000)
 
     res = sorted(dict(zip(list(x.columns), model.feature_importances_)).items(),
                  key=lambda el: el[1], reverse=True)
@@ -69,5 +79,9 @@ def decision_tree_task1(df):
     for val in res:
         print(val[0] + " - " + str(val[1] * 100) + '%')
 
+    # Сохранение модели
+    if not os.path.isfile(model_path):
+        joblib.dump(value=model, filename=model_path)
 
-tree_visual()
+
+# tree_visual()
