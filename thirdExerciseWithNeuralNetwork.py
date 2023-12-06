@@ -11,8 +11,8 @@ import seaborn as sns
 import joblib
 
 # Загрузим данные
-ndf = pd.read_csv("hotel_bookings_raw.csv")
-ndf.dropna(inplace=True)
+# ndf = pd.read_csv("hotel_bookings_raw.csv")
+# ndf.dropna(inplace=True)
 
 
 def neural_network_task3(df):
@@ -29,6 +29,7 @@ def neural_network_task3(df):
                      'previous_bookings_not_canceled', 'required_car_parking_spaces',
                      'CPI_AVG', 'INFLATION', 'INFLATION_CHG', 'GDP', 'CPI_HOTELS']
 
+    df = df.copy()
     # Выбираем признаки и целевую переменную
     features = df[features_list].copy()
     target = df['adr'].copy()
@@ -82,4 +83,4 @@ def neural_network_task3(df):
         joblib.dump(value=mlp_model, filename=model_path)
 
 
-neural_network_task3(ndf)
+# neural_network_task3(ndf)

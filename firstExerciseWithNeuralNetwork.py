@@ -12,8 +12,8 @@ from keras.layers import Dense
 import seaborn as sns
 from keras.models import load_model
 
-ndf = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
-ndf.dropna(inplace=True)
+# ndf = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
+# ndf.dropna(inplace=True)
 
 
 def neural_network_task1(df):
@@ -32,6 +32,8 @@ def neural_network_task1(df):
         'customer_type', 'previous_cancellations', 'previous_bookings_not_canceled',
         'required_car_parking_spaces', 'CPI_AVG', 'INFLATION', 'INFLATION_CHG',
         'GDP', 'CPI_HOTELS']
+
+    df = df.copy()
 
     for i in list_params:
         df[i] = label_encoder.fit_transform(df[i])
@@ -115,4 +117,4 @@ def neural_network_task1(df):
         model.save(model_path)
 
 
-neural_network_task1(ndf)
+# neural_network_task1(ndf)

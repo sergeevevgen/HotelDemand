@@ -10,7 +10,6 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz, plot_tree
 # df.dropna(inplace=True)
 
 
-# Тип питания в зависимости от инфляции и потребительских настроений по отношению к экономике
 # Функция для отображения дерева решений
 def decision_tree_task1(df):
     # Преобразование типов питания к числам
@@ -28,6 +27,8 @@ def decision_tree_task1(df):
         'customer_type', 'previous_cancellations', 'previous_bookings_not_canceled',
         'required_car_parking_spaces', 'CPI_AVG', 'INFLATION', 'INFLATION_CHG',
         'GDP', 'CPI_HOTELS']
+
+    df = df.copy()
 
     for i in list_params:
         df[i] = label_encoder.fit_transform(df[i])

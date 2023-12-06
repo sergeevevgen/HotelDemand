@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+    <p>{{ description }}</p>
+    <label for="graph_tree">График дерева решений</label>
+    <img id="graph_tree" src="{{ plot_urls[0] }}" alt="График">
+    <label for="confusion_matrix">График матрицы неточностей</label>
+    <img id="confusion_matrix" src="{{ plot_urls[1] }}" alt="График">
+    <label for="neural">График нейронная сети</label>
+    <img id="neural" src="{{ plot_urls[2] }}" alt="График">
+</body>
+</html>
