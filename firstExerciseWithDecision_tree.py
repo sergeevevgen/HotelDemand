@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, export_graphviz, plot_tree
 
-df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
-df.dropna(inplace=True)
+# df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
+# df.dropna(inplace=True)
 
 
 # Тип питания в зависимости от инфляции и потребительских настроений по отношению к экономике
 # Функция для отображения дерева решений
-def tree_visual():
+def decision_tree_task1(df):
     # Преобразование типов питания к числам
     # Инициализация LabelEncoder
     label_encoder = LabelEncoder()
