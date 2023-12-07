@@ -1,12 +1,14 @@
 import os
 
 import joblib
+import matplotlib
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, export_graphviz, plot_tree
 import seaborn as sns
+matplotlib.use('agg')  # Используем бэкенд, который не требует GUI
 
 # df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
 # df.dropna(inplace=True)

@@ -1,5 +1,6 @@
 import os.path
 
+import matplotlib
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
@@ -11,6 +12,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 import seaborn as sns
 from keras.models import load_model
+matplotlib.use('agg')  # Используем бэкенд, который не требует GUI
 
 # ndf = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
 # ndf.dropna(inplace=True)

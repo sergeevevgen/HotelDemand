@@ -3,6 +3,7 @@ import math
 import os
 
 import joblib
+import matplotlib
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -11,6 +12,7 @@ from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import seaborn as sns
+matplotlib.use('agg')  # Используем бэкенд, который не требует GUI
 
 # Загрузим данные
 # ndf = pd.read_csv("hotel_bookings_raw.csv")

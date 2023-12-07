@@ -1,12 +1,14 @@
 import os
 
 import joblib
+import matplotlib
 import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import matplotlib.pyplot as plt
 import seaborn as sns
+matplotlib.use('agg')  # Используем бэкенд, который не требует GUI
 
 # Загружаю данные
 # ndf = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')

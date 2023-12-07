@@ -1,6 +1,7 @@
 import math
 import os
 
+import matplotlib
 from matplotlib import pyplot as plt
 from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
@@ -9,6 +10,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import pandas as pd
 import seaborn as sns
 import joblib
+matplotlib.use('agg')  # Используем бэкенд, который не требует GUI
 
 # Загрузим данные
 # ndf = pd.read_csv("hotel_bookings_raw.csv")
