@@ -58,6 +58,7 @@ def clustering_dbscan_task2(df):
     plt.title('Метод кластеризации - DBSCAN')
     plt.xlabel('Время до заезда')
     plt.ylabel('Забронировано ночей в выходные дни')
+    plt.legend()
     plt.savefig('static/images/clusters_dbscan.png', dpi=300)
     plt.clf()
     # plt.show()

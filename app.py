@@ -34,10 +34,46 @@ description_for_1st_task = 'Дерево решений - классификац
                            'Целевая переменная:' \
                            'booking_canceled - Флаг отмены бронирования (1 - отменено, 0 - не отменено).'
 
-list_plot_urls = ['static/images/decision_tree.png', 'static/images/imagesconfusion_matrix_task1.png',
-                  'static/images/neural_task1.png', 'static/images/clusters_dbscan.png',
-                  'static/images/elbow_method.png', 'static/images/clusters_kmeans.png',
-                  'static/images/neural_task3.png', 'static/images/ridge.png']
+description_for_2nd_task = 'Кластеризация - метод DBSCAN - кластеризация по lead_time (время до бронирования), ' \
+                           'stays_in_weekend_nights (количество проживаемых выходных ночей), ' \
+                           'adults (количество взрослых), children (количество детей), babies (количество младенцев), ' \
+                           'adr (средняя цена за номер в день) - кластеризация клиентов по их характеристикам ' \
+                           'Кластеризация - метод K-Means - кластеризация по lead_time (время до бронирования), ' \
+                           'stays_in_weekend_nights (количество проживаемых выходных ночей), ' \
+                           'adults (количество взрослых), children (количество детей), babies (количество младенцев), ' \
+                           'adr (средняя цена за номер в день) - кластеризация клиентов по их характеристикам'
+
+description_for_3rd_task = 'Гребневая регрессия - прогнозирование значения дохода (adr) на основе набора ' \
+                           'экономических показателей: lead_time (время до бронирования), ' \
+                           'stays_in_weekend_nights (количество проживаемых выходных ночей), ' \
+                           'stays_in_week_nights (количество проживаемых будних ночей) ' \
+                           'adults (количество взрослых), children (количество детей), babies (количество младенцев), ' \
+                           'meal (тип обеда), customer_type (вид покупателя), ' \
+                           'previous_cancellations (количество предыдущих отмен бронирования), ' \
+                           'previous_bookings_not_canceled (количество предыдущих неотмененных бронирований), ' \
+                           'required_car_parking_spaces (количество необходимых мест для парковки), ' \
+                           'CPI_AVG (Средний индекс потребительских цен), INFLATION (Инфляция), ' \
+                           'INFLATION_CHG (Изменение инфляции), GDP (валовый внутренний продукт, ВВП), ' \
+                           'CPI_HOTELS (Индекс потребительских цен на отели) ' \
+                           'Нейронная сеть - многослойный персептрон (MLPRegressor) - ' \
+                           'прогнозирование значения дохода (adr) на основе различных ' \
+                           'экономических и операционных показателей: lead_time (время до бронирования), ' \
+                           'stays_in_weekend_nights (количество проживаемых выходных ночей), ' \
+                           'stays_in_week_nights (количество проживаемых будних ночей) ' \
+                           'adults (количество взрослых), children (количество детей), babies (количество младенцев), ' \
+                           'meal (тип обеда), customer_type (вид покупателя), ' \
+                           'previous_cancellations (количество предыдущих отмен бронирования), ' \
+                           'previous_bookings_not_canceled (количество предыдущих неотмененных бронирований), ' \
+                           'required_car_parking_spaces (количество необходимых мест для парковки), ' \
+                           'CPI_AVG (Средний индекс потребительских цен), INFLATION (Инфляция), ' \
+                           'INFLATION_CHG (Изменение инфляции), GDP (валовый внутренний продукт, ВВП), ' \
+                           'CPI_HOTELS (Индекс потребительских цен на отели)'
+
+list_plot_urls = ['images/decision_tree.png', 'images/decision_tree_graph.png',
+                  'images/confusion_matrix_tree_task1.png', 'images/confusion_matrix_task1.png',
+                  'images/neural_task1.png', 'images/clusters_dbscan.png',
+                  'images/elbow_method.png', 'images/clusters_kmeans.png',
+                  'images/neural_task3.png', 'images/ridge.png']
 
 
 @app.route('/')
@@ -48,19 +84,22 @@ def home():
 @app.route('/task1')
 def decision_tree():
     decision_tree_task1(df)
+    neural_network_task1(df)
     return render_template('task1.html', description=description_for_1st_task, plot_urls=list_plot_urls)
 
 
-@app.route('/clustering')
+@app.route('/task2')
 def clustering():
-    # Здесь можно вставить код для выполнения задачи с кластеризацией
-    return render_template('task1.html')
+    clustering_dbscan_task2(df)
+    clustering_kmeans_task2(df)
+    return render_template('task2.html', description=description_for_2nd_task, plot_urls=list_plot_urls)
 
 
 @app.route('/task3')
 def neural_network():
-    # Здесь можно вставить код для выполнения задачи с нейронной сетью
-    return render_template('task1.html')
+    neural_network_task3(df)
+    ridge_regression_task3(df)
+    return render_template('task3.html', description=description_for_3rd_task, plot_urls=list_plot_urls)
 
 
 if __name__ == '__main__':

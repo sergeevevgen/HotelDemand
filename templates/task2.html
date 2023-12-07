@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+    <p>{{ description }}</p>
+    <label for="graph_dbscan">График кластеризации методом DBSCAN</label>
+    <img id="graph_dbscan" src="{{ url_for('static', filename=plot_urls[5]) }}" alt="График dbscan">
+    <label for="graph_elbow">График метода локтя</label>
+    <img id="graph_elbow" src="{{ url_for('static', filename=plot_urls[6]) }}" alt="График метода локтя">
+    <label for="graph_kmeans">График кластеризации методом K-means</label>
+    <img id="graph_kmeans" src="{{ url_for('static', filename=plot_urls[7]) }}" alt="График kmeans">
+</body>
+</html>

@@ -99,7 +99,6 @@ def neural_network_task1(df):
     plt.savefig('static/images/confusion_matrix_task1.png')
     plt.clf()
 
-    # Оценка производительности модели с использованием вероятностей
     # График
     plt.figure(figsize=(10, 7))
     plt.plot(y_pred_binary.flatten(), label='Предсказанные', marker='o', color='#ff294d')

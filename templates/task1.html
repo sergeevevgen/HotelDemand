@@ -7,11 +7,15 @@
 </head>
 <body>
     <p>{{ description }}</p>
+    <label for="tree">График дерева решений</label>
+    <img id="tree" src="{{ url_for('static', filename=plot_urls[0]) }}" alt="График дерева решений">
     <label for="graph_tree">График дерева решений</label>
-    <img id="graph_tree" src="{{ plot_urls[0] }}" alt="График">
-    <label for="confusion_matrix">График матрицы неточностей</label>
-    <img id="confusion_matrix" src="{{ plot_urls[1] }}" alt="График">
+    <img id="graph_tree" src="{{ url_for('static', filename=plot_urls[1]) }}" alt="График дерева решений">
+    <label for="confusion_matrix_for_tree">График матрицы неточностей</label>
+    <img id="confusion_matrix_for_tree" src="{{ url_for('static', filename=plot_urls[2]) }}" alt="График матрицы неточностей для дерева решений">
+    <label for="confusion_matrix_for_neural">График матрицы неточностей</label>
+    <img id="confusion_matrix_for_neural" src="{{ url_for('static', filename=plot_urls[3]) }}" alt="График матрицы неточностей для нейронной сети">
     <label for="neural">График нейронная сети</label>
-    <img id="neural" src="{{ plot_urls[2] }}" alt="График">
+    <img id="neural" src="{{ url_for('static', filename=plot_urls[4]) }}" alt="График нейронной сети">
 </body>
 </html>

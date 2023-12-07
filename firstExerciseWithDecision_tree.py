@@ -3,8 +3,10 @@ import os
 import joblib
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, export_graphviz, plot_tree
+import seaborn as sns
 
 # df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
 # df.dropna(inplace=True)
@@ -66,12 +68,38 @@ def decision_tree_task1(df):
     prediction = model.score(x_test, y_test)
 
     print('Качество дерева решений: ', prediction * 100, '%')
-    # Визуализация дерева решений
-    plt.figure(figsize=(12, 8))
-    plot_tree(model, feature_names=list_params, filled=True)
+    if not os.path.isfile('static/images/decision_tree.png'):
+        # Визуализация дерева решений
+        plt.figure(figsize=(12, 8))
+        plot_tree(model, feature_names=list_params, filled=True)
 
-    # Сохранение графика в файл .png
-    plt.savefig('static/images/decision_tree.png', dpi=1000)
+        # Сохранение графика в файл .png
+        plt.savefig('static/images/decision_tree.png', dpi=1000)
+        plt.clf()
+
+    y_predictions = model.predict(x_test)
+    conf_matrix = confusion_matrix(y_test, y_predictions)
+
+    # График для матрицы неточностей
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False)
+    plt.xlabel('Predicted Labels')
+    plt.ylabel('True Labels')
+    plt.title('Confusion Matrix')
+    plt.savefig('static/images/confusion_matrix_tree_task1.png')
+    plt.clf()
+
+    # График
+    plt.figure(figsize=(10, 7))
+    plt.plot(y_predictions.flatten(), label='Предсказанные', marker='o', color='#ff294d')
+    plt.plot(y_test.values, label='Фактические', marker='o', color='#8b00ff')
+    plt.title('Фактические vs предсказанные значения')
+    plt.xlabel('Фактические')
+    plt.ylabel('Предсказанные')
+    plt.legend(loc='best')
+    plt.savefig("static/images/decision_tree_graph.png")
+    # plt.show()
+    plt.clf()
 
     res = sorted(dict(zip(list(x.columns), model.feature_importances_)).items(),
                  key=lambda el: el[1], reverse=True)

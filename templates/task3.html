@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+    <p>{{ description }}</p>
+    <label for="graph_neural">График нейронной сети</label>
+    <img id="graph_neural" src="{{ url_for('static', filename=plot_urls[8]) }}" alt="График нейронной сети">
+    <label for="graph_ridge">График гребневой регрессии</label>
+    <img id="graph_ridge" src="{{ url_for('static', filename=plot_urls[9]) }}" alt="График гребневой регрессии">
+</body>
+</html>
