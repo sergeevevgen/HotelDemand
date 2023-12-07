@@ -3,19 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Первая задача</title>
 </head>
 <body>
-    <p>{{ description }}</p>
-    <label for="tree">График дерева решений</label>
-    <img id="tree" src="{{ url_for('static', filename=plot_urls[0]) }}" alt="График дерева решений">
-    <label for="graph_tree">График дерева решений</label>
-    <img id="graph_tree" src="{{ url_for('static', filename=plot_urls[1]) }}" alt="График дерева решений">
-    <label for="confusion_matrix_for_tree">График матрицы неточностей</label>
-    <img id="confusion_matrix_for_tree" src="{{ url_for('static', filename=plot_urls[2]) }}" alt="График матрицы неточностей для дерева решений">
-    <label for="confusion_matrix_for_neural">График матрицы неточностей</label>
-    <img id="confusion_matrix_for_neural" src="{{ url_for('static', filename=plot_urls[3]) }}" alt="График матрицы неточностей для нейронной сети">
-    <label for="neural">График нейронная сети</label>
-    <img id="neural" src="{{ url_for('static', filename=plot_urls[4]) }}" alt="График нейронной сети">
+     <div class="task-container">
+        <h1>Описание</h1>
+        <p class="task-description">{{ description }}</p>
+
+         <!-- Первая картинка на отдельной строке -->
+        <div class="plot-row">
+            <div class="plot-container-big-image">
+                <h2>График модели дерева решений</h2>
+                <img src="{{ url_for('static', filename=plot_urls[0]) }}" alt="График дерева решений">
+            </div>
+        </div>
+
+        <div class="plot-row">
+            <div class="plot-container">
+                <h2>График матрицы неточностей для дерева решений</h2>
+                <img src="{{ url_for('static', filename=plot_urls[2]) }}" alt="График матрицы неточностей для дерева решений">
+            </div>
+
+             <div class="plot-container">
+                <h2>График дерева решений</h2>
+                <img src="{{ url_for('static', filename=plot_urls[1]) }}" alt="График дерева решений">
+            </div>
+        </div>
+
+        <div class="plot-row">
+            <div class="plot-container">
+                <h2>График матрицы неточностей для нейронной сети</h2>
+                <img src="{{ url_for('static', filename=plot_urls[3]) }}" alt="График матрицы неточностей для нейронной сети">
+            </div>
+
+            <div class="plot-container">
+                <h2>График нейронной сети</h2>
+                <img src="{{ url_for('static', filename=plot_urls[4]) }}" alt="График нейронной сети">
+            </div>
+        </div>
+
+        <div class="feature-importance">
+            <h2>Значимость признаков по дереву решений</h2>
+            <div class="centered_div">
+                <dl>
+                    {% for feature, importance in features_importance.items() %}
+                        <dt>{{ feature }}</dt>
+                        <dd>{{ importance }}</dd>
+                    {% endfor %}
+                </dl>
+            </div>
+        </div>
+
+        <div class="tree-quality">
+            <h2>Оценка точности дерева решений</h2>
+            <h4>{{ tree_quality }}</h4>
+        </div>
+
+        <div class="neural-accuracy">
+            <h2>Оценка точности нейронной сети</h2>
+            <h4>{{ neural_quality }}</h4>
+        </div>
+
+         <div class="conclusion_style">
+            <h2>Вывод: </h2>
+            <h4>{{ neural_quality }}</h4>
+        </div>
+    </div>
 </body>
 </html>

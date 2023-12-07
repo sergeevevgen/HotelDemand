@@ -1,5 +1,3 @@
-from threading import Thread
-
 import pandas as pd
 from flask import Flask, render_template
 from firstExerciseWithDecision_tree import decision_tree_task1
@@ -16,24 +14,24 @@ df.dropna(inplace=True)
 
 description_for_1st_task = 'Дерево решений - классификация - определение вероятности отмены бронирования на основе ' \
                            'данных ' \
-                           'о клиенте и бронировании. Признаки:' \
-                           ' lead_time - Время предварительного бронирования. ' \
-                           'stays_in_weekend_nights - Количество проживаемых выходных ночей.' \
+                           'о клиенте и бронировании. Признаки: ' \
+                           'lead_time - Время предварительного бронирования. ' \
+                           'stays_in_weekend_nights - Количество проживаемых выходных ночей. ' \
                            'stays_in_week_nights - Количество проживаемых будних ночей.' \
-                           'adults - Количество взрослых.' \
-                           'children - Количество детей.' \
-                           'babies - Количество младенцев.' \
-                           'meal - Тип обеда.' \
-                           'customer_type - Тип клиента.' \
-                           'previous_cancellations - Предыдущие отмены бронирования.' \
-                           'previous_bookings_not_canceled - Предыдущие успешные бронирования (не отмененные).' \
-                           'required_car_parking_spaces - Требуемое количество парковочных мест для автомобилей.' \
-                           'CPI_AVG - Средний индекс потребительских цен.' \
-                           'INFLATION - Инфляция.' \
-                           'INFLATION_CHG - Изменение инфляции.' \
-                           'GDP - ВВП (валовый внутренний продукт).' \
-                           'CPI_HOTELS - Индекс потребительских цен на отели.' \
-                           'Целевая переменная:' \
+                           'adults - Количество взрослых. ' \
+                           'children - Количество детей. ' \
+                           'babies - Количество младенцев. ' \
+                           'meal - Тип обеда. ' \
+                           'customer_type - Тип клиента. ' \
+                           'previous_cancellations - Предыдущие отмены бронирования. ' \
+                           'previous_bookings_not_canceled - Предыдущие успешные бронирования (не отмененные). ' \
+                           'required_car_parking_spaces - Требуемое количество парковочных мест для автомобилей. ' \
+                           'CPI_AVG - Средний индекс потребительских цен. ' \
+                           'INFLATION - Инфляция. ' \
+                           'INFLATION_CHG - Изменение инфляции. ' \
+                           'GDP - ВВП (валовый внутренний продукт). ' \
+                           'CPI_HOTELS - Индекс потребительских цен на отели. ' \
+                           'Целевая переменная: ' \
                            'booking_canceled - Флаг отмены бронирования (1 - отменено, 0 - не отменено).'
 
 description_for_2nd_task = 'Кластеризация - метод DBSCAN - кластеризация по lead_time (время до бронирования), ' \
@@ -77,17 +75,70 @@ list_plot_urls = ['images/decision_tree.png', 'images/decision_tree_graph.png',
                   'images/elbow_method.png', 'images/clusters_kmeans.png',
                   'images/neural_task3.png', 'images/ridge.png']
 
+list_descriptions = {
+    'hotel': 'показывает название отеля, в котором производилось изучение данных',
+    'is_canceled': 'флаг отмены бронирования (1 - отменено, 0 - не отменено)',
+    'lead_time': 'время предварительного бронирования',
+    'arrival_date_year': 'год прибытия',
+    'arrival_date_month': 'месяц прибытия',
+    'arrival_date_week_number': 'номер недели прибытия',
+    'arrival_date_day_of_month': 'день месяца прибытия',
+    'stays_in_weekend_nights': 'количество проживаемых выходных ночей',
+    'stays_in_week_nights': 'количество проживаемых будних ночей',
+    'adults': 'количество взрослых',
+    'children': 'количество детей',
+    'babies': 'количество младенцев',
+    'meal': 'тип обеда',
+    'country': 'страна происхождения клиента',
+    'market_segment': 'сегмент рынка, к которому относится клиент',
+    'distribution_channel': 'канал распределения',
+    'is_repeated_guest': 'флаг повторного посещения (1 - повторный гость, 0 - новый гость)',
+    'previous_cancellations': 'предыдущие отмены бронирования клиента',
+    'previous_bookings_not_canceled': 'предыдущие успешные бронирования (не отмененные)',
+    'reserved_room_type': 'тип зарезервированного номера',
+    'assigned_room_type': 'тип назначенного номера',
+    'booking_changes': 'количество изменений в бронировании',
+    'deposit_type': 'тип депозита, оплаченного клиентом',
+    'agent': 'идентификатор агента, совершившего бронирование',
+    'days_in_waiting_list': 'количество дней в списке ожидания',
+    'customer_type': 'тип клиента',
+    'adr': 'средняя цена за номер в день',
+    'required_car_parking_spaces': 'требуемое количество парковочных мест для автомобилей',
+    'total_of_special_requests': 'общее количество специальных запросов клиента',
+    'reservation_status': 'статус бронирования',
+    'reservation_status_date': 'дата обновления статуса бронирования',
+    'MO_YR': 'месяц и год прибытия',
+    'CPI_AVG': 'средний индекс потребительских цен',
+    'INFLATION': 'инфляция',
+    'INFLATION_CHG': 'изменение инфляции',
+    'CSMR_SENT': 'потребительские настроения',
+    'UNRATE': 'уровень безработицы',
+    'INTRSRT': 'процентная ставка',
+    'GDP': 'валовый внутренний продукт',
+    'FUEL_PRCS': 'цена на топливо',
+    'CPI_HOTELS': 'индекс потребительских цен на отели',
+    'US_GINI': 'индекс Джини для США',
+    'DIS_INC': 'распределение доходов'
+}
+
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    # Первые 10 строк для представления
+    first_10_rows = df.head(10).copy()
+    column_names = df.columns.tolist()
+
+    return render_template('index.html', rows=first_10_rows, columns=column_names,
+                           variable_descriptions=list_descriptions)
 
 
 @app.route('/task1')
 def decision_tree():
-    decision_tree_task1(df)
-    neural_network_task1(df)
-    return render_template('task1.html', description=description_for_1st_task, plot_urls=list_plot_urls)
+    result_tree = decision_tree_task1(df)
+    result_neural = neural_network_task1(df)
+    return render_template('task1.html', description=description_for_1st_task, plot_urls=list_plot_urls,
+                           tree_quality=result_tree['accuracy'], features_importance=result_tree['features'],
+                           neural_quality=result_neural)
 
 
 @app.route('/task2')

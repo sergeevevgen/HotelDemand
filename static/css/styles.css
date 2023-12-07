@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center; /* Выравниваем текст по центру */
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1); /* Чем меньше значение в последнем параметре (0.5), тем сильнее затемнение */
+    z-index: -1; /* Помещаем слой под содержимое страницы */
+}
+
+h1 {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+li {
+    display: inline-block;
+    margin: 10px;
+}
+
+a {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #435467;
+    color: #FFFFFF;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+a:hover {
+    background-color: #0056b3;
+}
+
+.scrollable-table {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+dl {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: auto 1fr; /* Два столбца, первый размером по содержимому, второй занимает оставшееся пространство */
+    gap: 10px; /* Расстояние между строками */
+    max-width: 600px;
+}
+
+dt {
+    font-weight: bold;
+    text-align: right; /* Выравнивание текста переменной по правому краю */
+}
+
+dd {
+    margin: 0; /* Убираем внутренние отступы для красоты */
+}
+
+.centered_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-container {
+    text-align: center;
+}
+
+.task-description {
+    font-size: 18px;
+    word-wrap: break-word; /* Разрешить перенос слов */
+    overflow-wrap: break-word; /* Альтернативный стиль, поддерживаемый браузерами */
+    max-width: 600px; /* Задайте максимальную ширину блока для переноса текста */
+     margin: 0 auto
+}
+
+.plot-row {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.plot-container {
+    margin-bottom: 20px;
+}
+
+.plot-container img {
+    width: 100%; /* Графики будут занимать 100% ширины контейнера */
+    max-width: 800px; /* Но не более 800px, чтобы избежать растяжения */
+    height: auto; /* Автоматическое масштабирование по высоте */
+}
+
+.feature-importance,
+.tree-quality,
+.neural-accuracy {
+    margin-top: 20px;
+}
+
+.plot-container-big-image img {
+    max-width: 100%;
+    max-height: 80vh;
+}

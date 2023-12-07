@@ -95,9 +95,9 @@ def neural_network_task1(df):
 
     plt.figure(figsize=(8, 6))
     sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False)
-    plt.xlabel('Predicted Labels')
-    plt.ylabel('True Labels')
-    plt.title('Confusion Matrix')
+    plt.xlabel('Предсказанные')
+    plt.ylabel('Фактические')
+    plt.title('Матрица неточностей')
     plt.savefig('static/images/confusion_matrix_task1.png')
     plt.clf()
 
@@ -116,6 +116,8 @@ def neural_network_task1(df):
     # Сохранение модели
     if not os.path.isfile(model_path):
         model.save(model_path)
+
+    return 'Точность предсказаний дерева решений: ' + str(round(accuracy * 100, 4)) + '%'
 
 
 # neural_network_task1(ndf)

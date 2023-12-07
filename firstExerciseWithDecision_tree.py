@@ -8,7 +8,9 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, export_graphviz, plot_tree
 import seaborn as sns
+
 matplotlib.use('agg')  # Используем бэкенд, который не требует GUI
+
 
 # df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
 # df.dropna(inplace=True)
@@ -85,9 +87,9 @@ def decision_tree_task1(df):
     # График для матрицы неточностей
     plt.figure(figsize=(8, 6))
     sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False)
-    plt.xlabel('Predicted Labels')
-    plt.ylabel('True Labels')
-    plt.title('Confusion Matrix')
+    plt.xlabel('Предсказанные')
+    plt.ylabel('Фактические')
+    plt.title('Матрица неточностей')
     plt.savefig('static/images/confusion_matrix_tree_task1.png')
     plt.clf()
 
@@ -107,12 +109,16 @@ def decision_tree_task1(df):
                  key=lambda el: el[1], reverse=True)
 
     print('feature importance:')
+    features_importance = {}
     for val in res:
+        features_importance[val[0]] = str(val[1] * 100) + '%'
         print(val[0] + " - " + str(val[1] * 100) + '%')
 
+    result = {'accuracy': 'Точность предсказаний дерева решений: ' + str(round(prediction * 100, 4)) + '%',
+              'features': features_importance}
     # Сохранение модели
     if not os.path.isfile(model_path):
         joblib.dump(value=model, filename=model_path)
-
+    return result
 
 # tree_visual()
