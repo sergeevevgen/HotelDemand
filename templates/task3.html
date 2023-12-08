@@ -7,10 +7,51 @@
     <title>Третья задача</title>
 </head>
 <body>
-    <p>{{ description }}</p>
-    <label for="graph_neural">График нейронной сети</label>
-    <img id="graph_neural" src="{{ url_for('static', filename=plot_urls[8]) }}" alt="График нейронной сети">
-    <label for="graph_ridge">График гребневой регрессии</label>
-    <img id="graph_ridge" src="{{ url_for('static', filename=plot_urls[9]) }}" alt="График гребневой регрессии">
+    <div class="task-container">
+        <h1>Описание</h1>
+        <p class="task-description">{{ description }}</p>
+
+         <!-- Первая картинка на отдельной строке -->
+        <div class="plot-row">
+            <div class="plot-container">
+                <h2>График модели нейронной сети</h2>
+                <img src="{{ url_for('static', filename=plot_urls[8]) }}" alt="График нейронной сети">
+            </div>
+            <div class="feature-importance">
+            <h2>Оценки модели</h2>
+            <div class="centered_div">
+                <dl>
+                    {% for score, criteria in score_criterias_neural.items() %}
+                        <dt>{{ score }}</dt>
+                        <dd>{{ criteria }}</dd>
+                    {% endfor %}
+                </dl>
+            </div>
+        </div>
+        </div>
+
+        <div class="plot-row">
+            <div class="plot-container">
+                <h2>График модели гребневой регрессии</h2>
+                <img src="{{ url_for('static', filename=plot_urls[9]) }}" alt="График гребневой регрессии">
+            </div>
+            <div class="feature-importance">
+                <h2>Оценки модели</h2>
+                <div class="centered_div">
+                    <dl>
+                        {% for score, criteria in score_criterias_ridge.items() %}
+                            <dt>{{ score }}</dt>
+                            <dd>{{ criteria }}</dd>
+                        {% endfor %}
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion_style">
+            <h2>Вывод: </h2>
+            <h4>{{ conclusion }}</h4>
+        </div>
+    </div>
 </body>
 </html>

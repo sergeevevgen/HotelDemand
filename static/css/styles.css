@@ -17,8 +17,9 @@ body::before {
     z-index: -1; /* Помещаем слой под содержимое страницы */
 }
 
-h1 {
+h1, h2, h3 {
     text-align: center;
+    color: #333;
 }
 
 ul {
@@ -126,4 +127,9 @@ dd {
 .plot-container-big-image img {
     max-width: 100%;
     max-height: 80vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
 }

@@ -117,7 +117,7 @@ def neural_network_task1(df):
     if not os.path.isfile(model_path):
         model.save(model_path)
 
-    return 'Точность предсказаний дерева решений: ' + str(round(accuracy * 100, 4)) + '%'
+    return 'Точность предсказаний нейронной сети: ' + str(round(accuracy * 100, 4)) + '%'
 
 
 # neural_network_task1(ndf)

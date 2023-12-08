@@ -10,7 +10,9 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import pandas as pd
 import seaborn as sns
 import joblib
+
 matplotlib.use('agg')  # Используем бэкенд, который не требует GUI
+
 
 # Загрузим данные
 # ndf = pd.read_csv("hotel_bookings_raw.csv")
@@ -84,5 +86,10 @@ def neural_network_task3(df):
     if not os.path.isfile(model_path):
         joblib.dump(value=mlp_model, filename=model_path)
 
+    result = {"Среднеквадратичная ошибка (MSE)": str(round(math.sqrt(mse), 2)) + '%',
+              "Среднеабсолютное отклонение (MAE)": str(round(mae, 2)) + '%',
+              "Коэффициент детерминации (R^2)": str(round(r2, 4) * 100) + '%'
+              }
+    return result
 
 # neural_network_task3(ndf)

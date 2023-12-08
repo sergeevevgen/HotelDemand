@@ -111,7 +111,7 @@ def decision_tree_task1(df):
     print('feature importance:')
     features_importance = {}
     for val in res:
-        features_importance[val[0]] = str(val[1] * 100) + '%'
+        features_importance[val[0]] = str(round(val[1] * 100, 4)) + '%'
         print(val[0] + " - " + str(val[1] * 100) + '%')
 
     result = {'accuracy': 'Точность предсказаний дерева решений: ' + str(round(prediction * 100, 4)) + '%',

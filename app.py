@@ -12,7 +12,7 @@ app = Flask(__name__)
 df = pd.read_csv("hotel_bookings_raw.csv", delimiter=',')
 df.dropna(inplace=True)
 
-description_for_1st_task = 'Дерево решений - классификация - определение вероятности отмены бронирования на основе ' \
+description_for_1st_task = 'Классификация - определение вероятности отмены бронирования на основе ' \
                            'данных ' \
                            'о клиенте и бронировании. Признаки: ' \
                            'lead_time - Время предварительного бронирования. ' \
@@ -34,16 +34,18 @@ description_for_1st_task = 'Дерево решений - классификац
                            'Целевая переменная: ' \
                            'booking_canceled - Флаг отмены бронирования (1 - отменено, 0 - не отменено).'
 
-description_for_2nd_task = 'Кластеризация - метод DBSCAN - кластеризация по lead_time (время до бронирования), ' \
+description_for_2nd_task = 'Кластеризация - кластеризация по lead_time (время до бронирования), ' \
                            'stays_in_weekend_nights (количество проживаемых выходных ночей), ' \
-                           'adults (количество взрослых), children (количество детей), babies (количество младенцев), ' \
-                           'adr (средняя цена за номер в день) - кластеризация клиентов по их характеристикам ' \
+                           'adults (количество взрослых), children (количество детей), babies ' \
+                           '(количество младенцев), adr (средняя цена за номер в день) - ' \
+                           'кластеризация клиентов по их характеристикам ' \
                            'Кластеризация - метод K-Means - кластеризация по lead_time (время до бронирования), ' \
                            'stays_in_weekend_nights (количество проживаемых выходных ночей), ' \
-                           'adults (количество взрослых), children (количество детей), babies (количество младенцев), ' \
-                           'adr (средняя цена за номер в день) - кластеризация клиентов по их характеристикам'
+                           'adults (количество взрослых), children (количество детей), babies ' \
+                           '(количество младенцев), adr (средняя цена за номер в день) - ' \
+                           'кластеризация клиентов по их характеристикам'
 
-description_for_3rd_task = 'Гребневая регрессия - прогнозирование значения дохода (adr) на основе набора ' \
+description_for_3rd_task = 'Прогнозирование значения дохода (adr) на основе набора ' \
                            'экономических показателей: lead_time (время до бронирования), ' \
                            'stays_in_weekend_nights (количество проживаемых выходных ночей), ' \
                            'stays_in_week_nights (количество проживаемых будних ночей) ' \
@@ -121,6 +123,29 @@ list_descriptions = {
     'DIS_INC': 'распределение доходов'
 }
 
+conclusion1 = 'Эта задача имеет более точное решение с помощью нейронной сети. Хотя разница минимальная. Но дерево ' \
+              'решений именно в этой задаче имеет худшую производительность в сравнении. Поэтому следует выбрать ' \
+              'нейронную сеть. Также тут мы можем определить, что самый главный признак - lead_time' \
+              ' (время предварительного бронирования). По матрице ошибок мы видим, что в тестовом наборе данных ' \
+              'отсутствуют случаи верных отрицательных предсказаний'
+
+conclusion2 = 'Клиенты разделяются на различные группы по своим признакам. Это может оказать помощь в изменении ' \
+              'предоставляемых услуг. Отель поймет, какой доход от какого типа клиента он получит. Какой ' \
+              'прогнозируемый доход он получит от клиентов с семьей и без. Отличительная особенность метода DBSCAN и ' \
+              'k-means заключается в том, что метод dbscan сам определяет число кластеров, на которые он разделяет ' \
+              'данные, а для метода к-средних необходимо определять оптимальное количество кластеров, например, с ' \
+              'помощью метода локтя. В нашем случае следует выбрать метод к-средних, потому что он дает более ' \
+              'понятные результаты, хоть и требует немного большего участия человека в принятии решения'
+
+conclusion3 = 'Смотря результаты моделей, нельзя однозначно сделать вывод, какая лучше. У одной оценки лучше по ' \
+              'одной метрике, у другой модели - по другим метрикам. Гребневая регрессия справилась лучше,' \
+              ' чем нейронная сеть. А нейронную сеть следует доработать. В нашем случае' \
+              ' следует выбрать регрессию, так как она выдает более точные результаты'
+
+elbow_d = 'С помощью этого метода можно определить оптимальное количество кластеров, на которые следует поделить ' \
+          'данные. Можно заметить, что изначально график идет резко вниз, затем выравнивается. Нам как раз необходим' \
+          ' момент плавного выравнивания графика, чтобы определить оптимальное количество кластеров (5)'
+
 
 @app.route('/')
 def home():
@@ -138,21 +163,24 @@ def decision_tree():
     result_neural = neural_network_task1(df)
     return render_template('task1.html', description=description_for_1st_task, plot_urls=list_plot_urls,
                            tree_quality=result_tree['accuracy'], features_importance=result_tree['features'],
-                           neural_quality=result_neural)
+                           neural_quality=result_neural, conclusion=conclusion1)
 
 
 @app.route('/task2')
 def clustering():
     clustering_dbscan_task2(df)
     clustering_kmeans_task2(df)
-    return render_template('task2.html', description=description_for_2nd_task, plot_urls=list_plot_urls)
+    return render_template('task2.html', description=description_for_2nd_task, plot_urls=list_plot_urls,
+                           conclusion=conclusion2, description_elbow=elbow_d)
 
 
 @app.route('/task3')
 def neural_network():
-    neural_network_task3(df)
-    ridge_regression_task3(df)
-    return render_template('task3.html', description=description_for_3rd_task, plot_urls=list_plot_urls)
+    result_neural = neural_network_task3(df)
+    result_ridge = ridge_regression_task3(df)
+    return render_template('task3.html', description=description_for_3rd_task, plot_urls=list_plot_urls,
+                           score_criterias_neural=result_neural, score_criterias_ridge=result_ridge,
+                           conclusion=conclusion3)
 
 
 if __name__ == '__main__':

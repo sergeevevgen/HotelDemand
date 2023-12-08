@@ -92,5 +92,11 @@ def ridge_regression_task3(df):
     if not os.path.isfile(model_path):
         joblib.dump(value=ridge_model, filename=model_path)
 
+    result = {"Среднеквадратичная ошибка (MSE)": str(round(math.sqrt(mse), 2)) + '%',
+              "Среднеабсолютное отклонение (MAE)": str(round(mae, 2)) + '%',
+              "Коэффициент детерминации (R^2)": str(round(r2, 4) * 100) + '%'
+              }
+    return result
+
 
 # ridge_regression_task3(ndf)

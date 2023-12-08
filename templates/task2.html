@@ -7,12 +7,38 @@
     <title>Вторая задача</title>
 </head>
 <body>
-    <p>{{ description }}</p>
-    <label for="graph_dbscan">График кластеризации методом DBSCAN</label>
-    <img id="graph_dbscan" src="{{ url_for('static', filename=plot_urls[5]) }}" alt="График dbscan">
-    <label for="graph_elbow">График метода локтя</label>
-    <img id="graph_elbow" src="{{ url_for('static', filename=plot_urls[6]) }}" alt="График метода локтя">
-    <label for="graph_kmeans">График кластеризации методом K-means</label>
-    <img id="graph_kmeans" src="{{ url_for('static', filename=plot_urls[7]) }}" alt="График kmeans">
+    <div class="task-container">
+        <h1>Описание</h1>
+        <p class="task-description">{{ description }}</p>
+
+        <div class="plot-row">
+            <div class="plot-container">
+                <h2>График разделения на кластеры с помощью алгоритма DBSCAN</h2>
+                <img src="{{ url_for('static', filename=plot_urls[5]) }}" alt="График dbscan">
+            </div>
+        </div>
+
+        <div class="plot-row">
+            <div class="plot-container">
+                <h2>График метода локтя</h2>
+                <img src="{{ url_for('static', filename=plot_urls[6]) }}" alt="График метода локтя">
+            </div>
+        </div>
+        
+        <!-- Тут должно быть пояснение про выбранное количество кластеров - типо тут линия становится наименее крутой-->
+        <p class="task-description">{{ description_elbow }}</p>
+
+        <div class="plot-row">
+            <div class="plot-container">
+                <h2>График разделения на кластеры с помощью алгоритма K-means</h2>
+                <img src="{{ url_for('static', filename=plot_urls[7]) }}" alt="График k-means">
+            </div>
+        </div>
+
+         <div class="conclusion_style">
+            <h2>Вывод: </h2>
+            <h4>{{ conclusion }}</h4>
+        </div>
+    </div>
 </body>
 </html>

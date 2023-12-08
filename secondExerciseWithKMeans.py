@@ -34,7 +34,6 @@ def clustering_kmeans_task2(df):
     scaler = StandardScaler()
     scaled_features = scaler.fit_transform(df[features])
 
-    kmeans = {}
     if os.path.isfile(model_path):
         # Загрузка модели
         kmeans = joblib.load(model_path)
